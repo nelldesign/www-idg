@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IDG Design & Co. — Projekční kancelář Cheb</title>
+  <meta name="description" content="Projektová příprava pozemních komunikací, dopravních staveb a gabionových konstrukcí. IDG Design s.r.o. — Cheb.">
+  <meta property="og:title" content="IDG Design & Co.">
+  <meta property="og:description" content="Projektová příprava pozemních komunikací, dopravních staveb a gabionových konstrukcí.">
+  <meta property="og:image" content="assets/logo-gold.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #0d0c0a;
+      color: #ece7da;
+      font-family: 'Archivo', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::selection { background: #c6a14c; color: #0d0c0a; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── CSS VARIABLES ────────────────────────────────────────────── */
+    :root {
+      --gold: #c6a14c;
+      --gold-dark: #9a7a2e;
+      --dark: #0d0c0a;
+      --dark2: #131109;
+      --cream: #f1ebdf;
+      --text: #ece7da;
+      --muted: #a8a294;
+      --border: rgba(255,255,255,.1);
+    }
+
+    /* ── ANIMATIONS ───────────────────────────────────────────────── */
+    @keyframes idgIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes idgReveal {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes idgPage {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: .85; }
+      50%       { transform: translateY(9px); opacity: .25; }
+    }
+
+    [data-load] { animation: idgIn 1.05s cubic-bezier(.2,.7,.2,1) both; }
+    [data-load="2"] { animation-delay: .16s; }
+    [data-load="3"] { animation-delay: .34s; }
+
+    /* ── NAVIGATION ───────────────────────────────────────────────── */
+    #idg-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(13,12,10,0);
+      border-bottom: 1px solid rgba(255,255,255,0);
+      transition: background .5s ease, border-color .5s ease, padding .4s ease;
+    }
+    #idg-nav.solid {
+      background: rgba(11,10,8,.95);
+      border-bottom-color: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo img { height: 34px; width: auto; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .nav-links a {
+      font: 500 13px/1 'Archivo';
+      letter-spacing: .04em;
+      color: #bdb6a8;
+      transition: color .2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+    .nav-lang {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 24px;
+      margin-left: 2px;
+      border-left: 1px solid rgba(255,255,255,.16);
+      font: 600 12px/1 'Archivo';
+      letter-spacing: .06em;
+    }
+    .nav-lang span {
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .nav-lang .sep { color: #6a655a; }
+    #lang-cs { color: var(--gold); }
+    #lang-en { color: #6a655a; }
+
+    /* hamburger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      background: none;
+      border: none;
+    }
+    .nav-burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #bdb6a8;
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* mobile nav drawer */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 49;
+      background: rgba(11,10,8,.97);
+      backdrop-filter: blur(12px);
+      padding: 90px 36px 40px;
+      flex-direction: column;
+      gap: 0;
+      transform: translateY(-100%);
+      transition: transform .35s cubic-bezier(.2,.7,.2,1);
+    }
+    .nav-mobile.open { transform: translateY(0); }
+    .nav-mobile a {
+      display: block;
+      font: 400 28px/1 'Jost';
+      color: #bdb6a8;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      transition: color .2s;
+    }
+    .nav-mobile a:hover { color: var(--gold); }
+    .nav-mobile .mob-lang {
+      display: flex;
+      gap: 14px;
+      margin-top: 28px;
+      font: 600 13px/1 'Archivo';
+      letter-spacing: .1em;
+    }
+    .nav-mobile .mob-lang span { cursor: pointer; color: #6a655a; transition: color .2s; }
+    .nav-mobile .mob-lang span.active { color: var(--gold); }
+
+    /* ── SECTION BASE ─────────────────────────────────────────────── */
+    section, header {
+      width: 100%;
+      position: relative;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────────── */
+    #uvod {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 118px 48px 36px;
+      overflow: hidden;
+      background: #0f1210;
+    }
+    #hero-img {
+      position: absolute;
+      inset: -8% 0 -8% 0;
+      width: 100%;
+      height: 116%;
+      object-fit: cover;
+      z-index: 0;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg,
+        rgba(10,12,11,.7) 0%,
+        rgba(10,12,11,.3) 40%,
+        rgba(10,12,11,.66) 78%,
+        rgba(13,12,10,.96) 100%);
+    }
+    .hero-overlay2 {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(120% 90% at 30% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,.5) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-logo {
+      width: min(52vw, 560px);
+      height: auto;
+      margin-left: -6px;
+      filter: drop-shadow(0 22px 60px rgba(0,0,0,.6));
+    }
+    .hero-sub {
+      max-width: 33ch;
+      margin: 42px 0 0;
+      font: 500 30px/1.42 'Cormorant Garamond';
+      letter-spacing: .005em;
+      color: #e3dccb;
+    }
+    .hero-footer {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+    .hero-location {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-line {
+      display: inline-block;
+      width: 1px;
+      height: 34px;
+      background: linear-gradient(#c6a14c, transparent);
+    }
+    .hero-city {
+      font: 500 11px/1 'Archivo';
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #a59f92;
+    }
+    .hero-coords {
+      font: 500 11px/1 'Archivo';
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #938d80;
+    }
+
+    /* ── FILOSOFIE ────────────────────────────────────────────────── */
+    #filosofie {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 90px;
+      background: var(--dark2);
+      overflow: hidden;
+    }
+    .rule-dashed {
+      height: 3px;
+      width: 100%;
+      background: repeating-linear-gradient(90deg, var(--gold) 0 30px, transparent 30px 58px);
+      opacity: .5;
+      margin-bottom: 64px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+    .section-eyebrow .line { width: 34px; height: 1px; background: var(--gold); }
+    .section-label {
+      font: 600 12px/1 'Archivo';
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    h2.serif {
+      font: 400 46px/1.16 'Jost';
+      letter-spacing: -.005em;
+      color: #f3efe5;
+    }
+    .body-text {
+      font: 300 18px/1.72 'Archivo';
+      color: var(--muted);
+    }
+    .photo-frame {
+      position: relative;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+    }
+    .photo-frame .inset-border {
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 0 1px rgba(198,161,76,.18);
+    }
+    .photo-caption {
+      position: absolute;
+      left: 0; bottom: 0;
+      padding: 18px 22px;
+      background: rgba(10,9,7,.74);
+      backdrop-filter: blur(2px);
+      font: 500 11px/1.5 'Archivo';
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #d9d2c2;
+    }
+
+    /* ── SLUŽBY ───────────────────────────────────────────────────── */
+    #sluzby {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 90px;
+      background: var(--cream);
+      color: #1c1a14;
+    }
+    #sluzby .section-label { color: var(--gold-dark); }
+    #sluzby h2.serif { color: #1c1a14; }
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 34px;
+      margin-top: 54px;
+    }
+    .service-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      margin-bottom: 24px;
+    }
+    .service-num {
+      font: 300 20px/1 'Jost';
+      color: var(--gold-dark);
+      margin-bottom: 14px;
+    }
+    .service-card h3 {
+      font: 500 24px/1.12 'Jost';
+      letter-spacing: -.005em;
+      color: #1c1a14;
+      margin: 0 0 14px;
+    }
+    .service-card p {
+      font: 300 15px/1.66 'Archivo';
+      color: #5f5949;
+    }
+
+    /* ── REFERENCE ────────────────────────────────────────────────── */
+    #reference {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 90px;
+      background: var(--dark);
+    }
+    .ref-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+    .ref-onrequest {
+      font: 600 12px/1 'Archivo';
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #8a8478;
+      padding-bottom: 8px;
+    }
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .ref-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .ref-title {
+      margin-top: 16px;
+      font: 500 18px/1.2 'Archivo';
+      color: #efe9da;
+    }
+    .ref-meta {
+      margin-top: 6px;
+      font: 400 13px/1 'Archivo';
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8a8478;
+    }
+
+    /* ── O NÁS ────────────────────────────────────────────────────── */
+    #onas {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 90px;
+      overflow: hidden;
+    }
+    #onas-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    #onas-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(11,10,8,.86), rgba(11,10,8,.78));
+    }
+    #onas .container {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .portrait-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+    .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .portrait-frame .portrait-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .portrait-frame .portrait-lines::before,
+    .portrait-frame .portrait-lines::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      border-left: 2px dashed;
+    }
+    .portrait-frame .portrait-lines::before {
+      left: 30px;
+      border-color: rgba(198,161,76,.5);
+    }
+    .portrait-frame .portrait-lines::after {
+      left: 42px;
+      border-color: rgba(198,161,76,.22);
+    }
+    .onas-text p.lead {
+      font: 400 40px/1.22 'Jost';
+      color: #f3efe5;
+      max-width: 24ch;
+    }
+    .onas-text p.body {
+      margin-top: 32px;
+      max-width: 52ch;
+      font: 300 18px/1.72 'Archivo';
+      color: #b9b3a6;
+    }
+    .onas-quote {
+      margin-top: 30px;
+      font: italic 500 24px/1.4 'Cormorant Garamond';
+      color: #cdb273;
+      max-width: 40ch;
+    }
+    .onas-person {
+      margin-top: 36px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+    .onas-person-name {
+      font: 600 19px/1 'Archivo';
+      color: #f3efe5;
+    }
+    .onas-person-role {
+      margin-top: 8px;
+      font: 400 14px/1 'Archivo';
+      letter-spacing: .04em;
+      color: #a59f92;
+    }
+
+    /* ── KONTAKT ──────────────────────────────────────────────────── */
+    #kontakt {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 60px;
+      background: var(--dark2);
+    }
+    #kontakt .grid-2col {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 72px;
+      align-items: end;
+    }
+    #kontakt h2.serif {
+      font-size: 52px;
+      line-height: 1.08;
+      max-width: 14ch;
+      margin-top: 28px;
+    }
+    #kontakt .body-text { max-width: 44ch; margin-top: 30px; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 36px;
+    }
+    .contact-label {
+      font: 500 11px/1 'Archivo';
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #857f74;
+      margin-bottom: 12px;
+    }
+    .contact-value {
+      font: 400 17px/1.4 'Archivo';
+      color: #eae5d6;
+    }
+    .contact-value a { color: inherit; transition: color .2s; }
+    .contact-value a:hover { color: var(--gold); }
+    .span-2 { grid-column: span 2; }
+
+    /* ── FOOTER ───────────────────────────────────────────────────── */
+    .idg-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 96px;
+      padding-top: 30px;
+      border-top: 1px solid #2a2824;
+    }
+    .idg-foot img { height: 28px; width: auto; opacity: .92; }
+    .idg-foot small {
+      font: 400 12px/1.5 'Archivo';
+      letter-spacing: .04em;
+      color: #7f7a6e;
+    }
+
+    /* ── SCROLL REVEAL ────────────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .75s cubic-bezier(.2,.7,.2,1), transform .75s cubic-bezier(.2,.7,.2,1);
+    }
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── DESKTOP SPA: show only active section ────────────────────── */
+    @media (min-width: 901px) {
+      .idg-section { display: none; }
+      .idg-section.active { display: flex; flex-direction: column; animation: idgPage .55s cubic-bezier(.2,.7,.2,1) both; }
+      /* hero is always a header — always shown when active */
+      #uvod { display: none; }
+      #uvod.active { display: flex; }
+
+      .idg-foot { display: none; }
+      #kontakt.active .idg-foot { display: flex; }
+    }
+
+    /* ── MOBILE ───────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .idg-section { display: flex; flex-direction: column; }
+      #uvod { display: flex; }
+
+      #idg-nav {
+        padding: 18px 24px;
+        background: rgba(11,10,8,.95);
+        border-bottom-color: rgba(255,255,255,.08);
+        backdrop-filter: blur(10px);
+      }
+      .nav-links, .nav-lang { display: none; }
+      .nav-burger { display: flex; }
+      .nav-mobile { display: flex; }
+
+      .grid-2col, .grid-3col, .ref-grid { grid-template-columns: 1fr; }
+      .hero-logo { width: 84vw; }
+      .hero-sub { font-size: 22px; }
+      .hero-coords { display: none; }
+      #uvod { padding: 100px 24px 36px; }
+      #filosofie, #sluzby, #reference, #onas, #kontakt { padding: 80px 24px 60px; }
+      h2.serif { font-size: 34px; }
+      #kontakt h2.serif { font-size: 34px; }
+      .photo-frame img { height: 320px; }
+      .ref-card img { height: 200px; }
+      .portrait-frame { aspect-ratio: 3/2; max-height: 280px; }
+      #onas .container { grid-template-columns: 1fr; }
+      .onas-text p.lead { font-size: 28px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .span-2 { grid-column: 1; }
+      .ref-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .ref-onrequest { display: none; }
+      .idg-foot { flex-direction: column; align-items: flex-start; }
+
+      [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .hero-overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,.7) 30%, transparent 100%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ──────────────────────────────────────────────── -->
+  <nav id="idg-nav">
+    <a class="nav-logo" href="#uvod" data-pg="uvod">
+      <img src="assets/logo-mono.png" alt="IDG Design s.r.o.">
+    </a>
+    <div class="nav-links" id="nav-desktop">
+      <a href="#filosofie" data-pg="filosofie" data-en="Philosophy">Filosofie</a>
+      <a href="#sluzby"    data-pg="sluzby"    data-en="Services">Služby</a>
+      <a href="#reference" data-pg="reference" data-en="Projects">Reference</a>
+      <a href="#onas"      data-pg="onas"      data-en="Studio">O nás</a>
+      <a href="#kontakt"   data-pg="kontakt"   data-en="Contact">Kontakt</a>
+      <div class="nav-lang">
+        <span id="lang-cs">CZ</span>
+        <span class="sep">/</span>
+        <span id="lang-en">EN</span>
+      </div>
+    </div>
+    <button class="nav-burger" id="nav-burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- mobile nav drawer -->
+  <div class="nav-mobile" id="nav-mobile">
+    <a href="#filosofie" data-pg="filosofie" data-en="Philosophy">Filosofie</a>
+    <a href="#sluzby"    data-pg="sluzby"    data-en="Services">Služby</a>
+    <a href="#reference" data-pg="reference" data-en="Projects">Reference</a>
+    <a href="#onas"      data-pg="onas"      data-en="Studio">O nás</a>
+    <a href="#kontakt"   data-pg="kontakt"   data-en="Contact">Kontakt</a>
+    <div class="mob-lang">
+      <span id="mob-cs" class="active">CZ</span>
+      <span id="mob-en">EN</span>
+    </div>
+  </div>
+
+  <!-- ── HERO ────────────────────────────────────────────────────── -->
+  <header id="uvod" class="idg-section active">
+    <img id="hero-img" src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=2200&q=80&auto=format&fit=crop" alt="">
+    <div class="hero-overlay"></div>
+    <div class="hero-overlay2"></div>
+    <div class="container hero-content">
+      <img class="hero-logo" src="assets/logo-metal.png" alt="IDG Design s.r.o." data-load="2">
+      <p class="hero-sub" data-load="3"
+         data-en="Design preparation for roads, transport structures and gabion works — precision that begins long before the first machine arrives on site.">
+        Projektová příprava pozemních komunikací, dopravních staveb a gabionových konstrukcí — přesnost, která začíná dávno před první stavbou.
+      </p>
+    </div>
+    <div class="container hero-footer">
+      <div class="hero-location">
+        <span class="hero-line"></span>
+        <span class="hero-city" data-en="Engineering practice — Cheb">Projekční kancelář — Cheb</span>
+      </div>
+      <span class="hero-coords">50°05′ N · 12°22′ E</span>
+    </div>
+  </header>
+
+  <!-- ── FILOSOFIE ───────────────────────────────────────────────── -->
+  <section id="filosofie" class="idg-section">
+    <div class="container">
+      <div class="rule-dashed"></div>
+      <div class="grid-2col">
+        <div>
+          <div class="section-eyebrow" data-reveal>
+            <span class="line"></span>
+            <span class="section-label" data-en="Brand philosophy">Filosofie značky</span>
+          </div>
+          <h2 class="serif" data-reveal
+              data-en="Our work begins long before the first machine arrives on site.">
+            Naše práce začíná dlouho předtím, než se na stavbě objeví první bagr.
+          </h2>
+          <p class="body-text" style="margin-top:38px; max-width:46ch;" data-reveal
+             data-en="Every line of a drawing carries a decision. We bring experience and calm certainty to that responsibility — so that what is built reflects exactly what was intended.">
+            Každá linie výkresu nese rozhodnutí. Do této odpovědnosti vkládáme zkušenost a klidnou jistotu — aby to, co vznikne na stavbě, přesně odpovídalo tomu, co bylo zamýšleno.
+          </p>
+        </div>
+        <div class="photo-frame" data-reveal>
+          <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1300&q=80&auto=format&fit=crop" alt="">
+          <div class="inset-border"></div>
+          <div class="photo-caption" data-en="Before the first machine">Než přijede první bagr</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLUŽBY ──────────────────────────────────────────────────── -->
+  <section id="sluzby" class="idg-section">
+    <div class="container">
+      <div data-reveal>
+        <div style="font:600 12px/1 'Archivo'; letter-spacing:.28em; text-transform:uppercase; color:#9a7a2e; margin-bottom:22px;"
+             data-en="Areas of expertise">Oblasti činnosti</div>
+        <h2 class="serif" data-en="Three disciplines, one standard.">Tři disciplíny, jeden standard.</h2>
+      </div>
+      <div class="grid-3col">
+        <div class="service-card" data-reveal>
+          <div style="overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?w=900&q=80&auto=format&fit=crop" alt="">
+          </div>
+          <div class="service-num">01</div>
+          <h3 data-en="Roads &amp; local infrastructure">Pozemní komunikace</h3>
+          <p data-en="Design documentation for highways, local and service roads across all stages — from study to detailed construction drawings.">
+            Projektová dokumentace silnic, místních a účelových komunikací ve všech stupních přípravy — od studie po realizační dokumentaci.
+          </p>
+        </div>
+        <div class="service-card" data-reveal>
+          <div style="overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1439337153520-7082a56a81f4?w=900&q=80&auto=format&fit=crop" alt="">
+          </div>
+          <div class="service-num">02</div>
+          <h3 data-en="Transport structures">Dopravní stavby</h3>
+          <p data-en="Complex transport-infrastructure solutions — junctions, structures and earthworks designed for decades of operation.">
+            Komplexní řešení dopravní infrastruktury — křižovatky, objekty a zemní tělesa navržené s ohledem na desítky let provozu.
+          </p>
+        </div>
+        <div class="service-card" data-reveal>
+          <div style="overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=900&q=80&auto=format&fit=crop" alt="">
+          </div>
+          <div class="service-num">03</div>
+          <h3 data-en="Gabion structures">Gabionové konstrukce</h3>
+          <p data-en="Design of retaining and revetment gabion walls — structural integrity, durability and harmony with the landscape.">
+            Návrh opěrných a zárubních gabionových stěn s důrazem na statiku, životnost a soulad s okolní krajinou.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REFERENCE ───────────────────────────────────────────────── -->
+  <section id="reference" class="idg-section">
+    <div class="container">
+      <div class="ref-header">
+        <div data-reveal>
+          <div style="font:600 12px/1 'Archivo'; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:22px;"
+               data-en="Selected projects">Vybrané reference</div>
+          <h2 class="serif" data-en="A record of considered work.">Doklad promyšlené práce.</h2>
+        </div>
+        <span class="ref-onrequest" data-en="On request">Na vyžádání</span>
+      </div>
+      <div class="ref-grid">
+        <div class="ref-card" data-reveal>
+          <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1000&q=80&auto=format&fit=crop" alt="">
+          <div class="ref-title" data-en="Road rerouting / traffic solution">Přeložka silnice / dopravní řešení</div>
+          <div class="ref-meta">Cheb · 2024</div>
+        </div>
+        <div class="ref-card" data-reveal>
+          <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1000&q=80&auto=format&fit=crop" alt="">
+          <div class="ref-title" data-en="Gabion retaining wall">Gabionová opěrná stěna</div>
+          <div class="ref-meta">Sokolovsko · 2023</div>
+        </div>
+        <div class="ref-card" data-reveal>
+          <img src="https://images.unsplash.com/photo-1439337153520-7082a56a81f4?w=1000&q=80&auto=format&fit=crop" alt="">
+          <div class="ref-title" data-en="Intersection and roundabout">Křižovatka a okružní pás</div>
+          <div class="ref-meta">Chebsko · 2023</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── O NÁS ───────────────────────────────────────────────────── -->
+  <section id="onas" class="idg-section">
+    <img id="onas-bg" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=2000&q=80&auto=format&fit=crop" alt="">
+    <div id="onas-overlay"></div>
+    <div class="container">
+      <div class="portrait-frame" data-reveal>
+        <img src="photos/portrait.png" alt="Bc. Michal Pašava">
+        <div class="portrait-lines"></div>
+      </div>
+      <div class="onas-text">
+        <div class="section-eyebrow" data-reveal>
+          <span class="line"></span>
+          <span class="section-label" data-en="Who we are">Kdo jsme</span>
+        </div>
+        <p class="lead" data-reveal
+           data-en="IDG Design &amp; Co. was born from the union of two firms — the engineering practice IDG Design s.r.o. and Bc. Michal Pašava.">
+          IDG Design & Co. vzniklo spojením dvou firem — projekční kanceláře IDG Design s.r.o. a společnosti Bc. Michal Pašava.
+        </p>
+        <p class="body" data-reveal
+           data-en="Two names, one responsibility. By joining their experience, technical thinking and personal precision, a single studio emerged — one whose drawings can be trusted without reservation, with a reputation built long before today.">
+          Dvě jména, jedna odpovědnost. Spojením jejich zkušeností, technického myšlení a osobní preciznosti vznikla kancelář, jejíž výkresům lze bez výhrad důvěřovat — a pověst, která byla vybudována dávno před dneškem.
+        </p>
+        <p class="onas-quote" data-reveal
+           data-en="&ldquo;Here work people who know exactly what they are doing.&rdquo;">
+          „Tady pracují lidé, kteří přesně vědí, co dělají."
+        </p>
+        <div class="onas-person" data-reveal>
+          <div class="onas-person-name">Bc. Michal Pašava</div>
+          <div class="onas-person-role" data-en="Director &amp; lead designer">Jednatel a vedoucí projektant</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── KONTAKT ─────────────────────────────────────────────────── -->
+  <section id="kontakt" class="idg-section">
+    <div class="container">
+      <div class="rule-dashed"></div>
+      <div class="grid-2col">
+        <div data-reveal>
+          <div class="section-label" data-en="Contact">Kontakt</div>
+          <h2 class="serif" data-en="For our business partners.">Pro naše obchodní partnery.</h2>
+          <p class="body-text"
+             data-en="The studio is long-term fully booked. We are glad to provide essential information and references to partners.">
+            Kancelář je dlouhodobě plně vytížená. Obchodním partnerům rádi poskytneme základní informace a reference.
+          </p>
+        </div>
+        <div class="contact-grid" data-reveal>
+          <div>
+            <div class="contact-label" data-en="E-mail">E-mail</div>
+            <div class="contact-value"><a href="mailto:pasava@idgdesign.cz">pasava@idgdesign.cz</a></div>
+          </div>
+          <div>
+            <div class="contact-label" data-en="Company ID">IČO / DIČ</div>
+            <div class="contact-value">06497381 · CZ06497381</div>
+          </div>
+          <div class="span-2">
+            <div class="contact-label" data-en="Registered office">Sídlo</div>
+            <div class="contact-value">Sokolovská 409/31, Háje, 350 02 Cheb</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="idg-foot">
+        <img src="assets/logo-mono.png" alt="IDG Design s.r.o.">
+        <small>© 2026 IDG Design s.r.o. — Projekční kancelář, Cheb</small>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ── JAVASCRIPT ──────────────────────────────────────────────── -->
+  <script>
+  (function() {
+    const DESKTOP = () => window.innerWidth > 900;
+    const sections = ['uvod','filosofie','sluzby','reference','onas','kontakt'];
+    let currentPage = 'uvod';
+    let currentLang = 'cs';
+    let mobileOpen = false;
+
+    // ── Language ───────────────────────────────────────────────────
+    function applyLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-en]').forEach(el => {
+        if (!el.dataset.cs) el.dataset.cs = el.innerHTML;
+        el.innerHTML = lang === 'en' ? el.dataset.en : el.dataset.cs;
+      });
+      // update indicators
+      document.getElementById('lang-cs').style.color = lang === 'cs' ? '#c6a14c' : '#6a655a';
+      document.getElementById('lang-en').style.color = lang === 'en' ? '#c6a14c' : '#6a655a';
+      document.getElementById('mob-cs').classList.toggle('active', lang === 'cs');
+      document.getElementById('mob-en').classList.toggle('active', lang === 'en');
+    }
+    document.getElementById('lang-cs').addEventListener('click', () => applyLang('cs'));
+    document.getElementById('lang-en').addEventListener('click', () => applyLang('en'));
+    document.getElementById('mob-cs').addEventListener('click', () => applyLang('cs'));
+    document.getElementById('mob-en').addEventListener('click', () => applyLang('en'));
+
+    // ── Desktop SPA navigation ─────────────────────────────────────
+    function showPage(id) {
+      if (!DESKTOP()) return;
+      currentPage = id;
+      sections.forEach(s => {
+        const el = document.getElementById(s);
+        if (s === id) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+      // update nav active links
+      document.querySelectorAll('[data-pg]').forEach(a => {
+        a.classList.toggle('active', a.dataset.pg === id);
+      });
+      // re-apply lang (content may have been re-rendered)
+      if (currentLang === 'en') applyLang('en');
+      // update nav bar opacity
+      const nav = document.getElementById('idg-nav');
+      nav.classList.toggle('solid', id !== 'uvod');
+      // trigger reveals
+      setTimeout(triggerReveals, 50);
+      window.scrollTo(0, 0);
+    }
+
+    // handle all nav link clicks
+    document.querySelectorAll('[data-pg]').forEach(el => {
+      el.addEventListener('click', e => {
+        const id = el.dataset.pg;
+        if (DESKTOP()) {
+          e.preventDefault();
+          showPage(id);
+          closeMobileMenu();
+        } else {
+          // on mobile, smooth scroll
+          e.preventDefault();
+          closeMobileMenu();
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ── Mobile hamburger ───────────────────────────────────────────
+    const burger = document.getElementById('nav-burger');
+    const mobileNav = document.getElementById('nav-mobile');
+    function closeMobileMenu() {
+      mobileOpen = false;
+      burger.classList.remove('open');
+      mobileNav.classList.remove('open');
+    }
+    burger.addEventListener('click', () => {
+      mobileOpen = !mobileOpen;
+      burger.classList.toggle('open', mobileOpen);
+      mobileNav.classList.toggle('open', mobileOpen);
+    });
+
+    // ── Hero parallax ──────────────────────────────────────────────
+    const heroImg = document.getElementById('hero-img');
+    window.addEventListener('scroll', () => {
+      if (!DESKTOP()) return;
+      const y = window.scrollY;
+      if (heroImg && y < window.innerHeight) {
+        heroImg.style.transform = 'translateY(' + (y * 0.18) + 'px) scale(1.04)';
+      }
+    }, { passive: true });
+
+    // ── Nav solid on scroll (mobile) ───────────────────────────────
+    window.addEventListener('scroll', () => {
+      if (DESKTOP()) return;
+      // on mobile nav is always solid; nothing to do
+    }, { passive: true });
+
+    // ── Scroll reveal (mobile & desktop) ──────────────────────────
+    function triggerReveals() {
+      if (DESKTOP()) {
+        // on desktop reveal everything in current active section
+        const active = document.querySelector('.idg-section.active');
+        if (active) {
+          active.querySelectorAll('[data-reveal]').forEach(el => {
+            el.classList.add('revealed');
+          });
+        }
+      } else {
+        // on mobile use IntersectionObserver
+        // (already set up below)
+      }
+    }
+
+    // IntersectionObserver for mobile reveals
+    if (!DESKTOP()) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+    }
+
+    // ── Initial state ──────────────────────────────────────────────
+    showPage('uvod');
+    // trigger initial reveals (uvod has no [data-reveal] elements, safe)
+    triggerReveals();
+
+    // handle resize: switching between mobile/desktop
+    window.addEventListener('resize', () => {
+      if (DESKTOP()) {
+        showPage(currentPage);
+      } else {
+        // show all sections
+        sections.forEach(s => document.getElementById(s).classList.add('active'));
+      }
+    });
+
+  })();
+  </script>
+</body>
+</html>
