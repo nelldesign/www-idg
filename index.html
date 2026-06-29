@@ -591,14 +591,13 @@
 
     /* ── DESKTOP SPA: show only active section ────────────────────── */
     @media (min-width: 901px) {
-      .idg-section { display: none; }
-      .idg-section.active { display: flex; flex-direction: column; animation: idgPage .55s cubic-bezier(.2,.7,.2,1) both; }
-      /* hero is always a header — always shown when active */
-      #uvod { display: none; }
-      #uvod.active { display: flex; }
+      .idg-section { display: none !important; }
+      .idg-section.active { display: flex !important; flex-direction: column; animation: idgPage .55s cubic-bezier(.2,.7,.2,1) both; }
+      #uvod { display: none !important; }
+      #uvod.active { display: flex !important; }
 
-      .idg-foot { display: none; }
-      #kontakt.active .idg-foot { display: flex; }
+      .idg-foot { display: none !important; }
+      #kontakt.active .idg-foot { display: flex !important; }
     }
 
     /* ── MOBILE ───────────────────────────────────────────────────── */
